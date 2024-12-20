@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# Multilevel Menu component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is built using react + vite + ts.
 
-Currently, two official plugins are available:
+## Deployment
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repo is deployed at [deepaklunked-menu.netlify.app](https://deepaklunked-menu.netlify.app/)
 
-## Expanding the ESLint configuration
+## Local Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Clone the repo and run the following commands after cd'ing into the cloned directory
+ - `npm i`
+ - `npm run dev`
 
-- Configure the top-level `parserOptions` property like this:
+## Building the functionality
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Used a sample JSON REST API for products, `https://dummyjson.com/products`, provided by [dummyjson.com](www.dummyjson.com) to fetch a list of items to be rendered.
+For simulating external filtering, used this API: `https://dummyjson.com/products/search?q=phone`
+
+The data structure used to represent each menu item is as follows:
+```
+export interface MenuOption {
+  title: string;
+  detail?: string | number;
+  subMenus: MenuOption[];
+  isSelected: boolean;
+}
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+But the data returned by the API was in a different format, hence wrote util functions to transform data as per the requirement.
+Wrote a hook to fetch data, which also supports filtering via API, and returns loading state and fetched data.
+Used styled-components for quick styling, and kept the css to a bare minimum.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Usage
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+On load, a checkbox with label `External filter?` and a button with text `Show products` is rendered.
+
+## Known bugs
+
+ - On selecting a menu item, the selection does not reflect immediately, renders fine on hovering out (the updated state is not triggering a re-render, to be debugged)
+ - When `External filter?` is unchecked and a search query is entered to filter items in a sub menu, then the list is updated correctly. However, when the search query is changed (or removed) while the filtered submenu is being rendered, the filter does not apply immediately to the submenu list (this too is happening due to a re-render not being triggered)
+
+
+## Scope of expansion
+
+These are the items that can be picked up next in order to improve the working of the component
+
+ - Tests can be written
+ - Debounce API call when `External filter?` is checked
+ - Styles and interactions can be improved
+

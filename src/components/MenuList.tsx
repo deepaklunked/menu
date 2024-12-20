@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { MenuOption } from "../types";
 import SearchInput from "./SearchInput";
@@ -79,6 +79,7 @@ export default function MenuList({
 }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showSubMenu, setShowSubMenu] = useState<MenuOption[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const handleMouseEnter = (index: number, subMenus: MenuOption[]) => {
     setShowSubMenu(subMenus);
@@ -87,6 +88,7 @@ export default function MenuList({
 
   const handleMouseLeave = () => {
     setShowSubMenu([]);
+    setSelectedIndex(-1);
   };
 
   const handleClick = useCallback(
@@ -96,6 +98,12 @@ export default function MenuList({
     },
     [onSelect, parentIndex]
   );
+
+  useEffect(() => {
+    if (selectedIndex !== -1) {
+      setShowSubMenu(data[selectedIndex].subMenus)
+    }
+  }, [data, selectedIndex])
 
   return (
     <MenuListWrapper>

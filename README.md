@@ -44,7 +44,6 @@ Used styled-components for quick styling, and kept the css to a bare minimum.
 ## Known bugs
 
  - On selecting a menu item, the selection does not reflect immediately, renders fine on hovering out (the updated state is not triggering a re-render, to be debugged)
- - When `External filter?` is unchecked and a search query is entered to filter items in a sub menu, then the list is updated correctly. However, when the search query is changed (or removed) while the filtered submenu is being rendered, the filter does not apply immediately to the submenu list (this too is happening due to a re-render not being triggered)
 
 
 ## Scope of expansion

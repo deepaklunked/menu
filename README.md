@@ -33,7 +33,13 @@ Used styled-components for quick styling, and kept the css to a bare minimum.
 
 ## Usage
 
-On load, a checkbox with label `External filter?` and a button with text `Show products` is rendered.
+ - On load, a checkbox with label `External filter?` and a button with text `Show products` is rendered.
+ - Clicking on the button toggles the menu.
+ - A search component is displayed only for the first level of the menu.
+ - Nested menus are indicated with a `>` in the right end of the menu item
+ - Clicking on a menu item selects it; selected menus are indicated with a `x` in left end of the menu item
+ - When `External filter?` is unchecked, searching will occur internally; this is implmented such that if the search query matches any first-level menu item, it will be displayed. Also, if the search query matches any sub menu item, then its parent menu will be displayed, and the filtered submenu will also be displayed.
+ - When `External filter?` is checked, then the filtering happens via API, and the response is displayed as received from the backend, after the transformations done as mentioned above.
 
 ## Known bugs
 

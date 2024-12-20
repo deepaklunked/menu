@@ -99,15 +99,6 @@ export const filterMenuOptions = (data: MenuOption[], searchQuery: string) => {
 
       return result;
     }, [] as MenuOption[]);
-
-    // return _data.filter(
-    //   (item) =>
-    //     item.title
-    //       .trim()
-    //       .toLowerCase()
-    //       .includes(searchQuery.trim().toLowerCase()) ||
-    //     filter(item.subMenus).length > 0
-    // );
   };
 
   return filter(data);
@@ -128,8 +119,24 @@ export const updateMenuSelection = (
   }
 
   if (itemToUpdate && !newState) {
-    itemToUpdate.isSelected = newState;
+    const hasSelectedChildren = checkIfChildrenSelected(itemToUpdate.subMenus);
+
+    if (!hasSelectedChildren) {
+      itemToUpdate.isSelected = newState;
+    }
   }
 
   return data;
+};
+
+const checkIfChildrenSelected = (data: MenuOption[]): boolean => {
+  if (data.length === 0) {
+    return false;
+  }
+  const childrenStatus = data.some((item) => {
+    const grandChildrenStatus = checkIfChildrenSelected(item.subMenus);
+    return item.isSelected || grandChildrenStatus;
+  });
+
+  return childrenStatus;
 };

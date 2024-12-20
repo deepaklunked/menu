@@ -67,7 +67,7 @@ interface Props {
   parentIndex: number[];
   searchQuery?: string;
   onInputChange?: (query: string) => void;
-  onSelect: (parentIndex: number[]) => void;
+  onSelect: (parentIndex: number[], newState: boolean) => void;
 }
 
 export default function MenuList({
@@ -77,7 +77,6 @@ export default function MenuList({
   onInputChange,
   onSelect,
 }: Props) {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showSubMenu, setShowSubMenu] = useState<MenuOption[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -92,9 +91,9 @@ export default function MenuList({
   };
 
   const handleClick = useCallback(
-    (index: number) => {
-      onSelect([...parentIndex, index]);
+    (index: number, newState: boolean) => {
       setSelectedIndex(index);
+      onSelect([...parentIndex, index], newState);
     },
     [onSelect, parentIndex]
   );
@@ -127,7 +126,7 @@ export default function MenuList({
             }}
             onClick={(e) => {
               e.stopPropagation();
-              handleClick(index);
+              handleClick(index, !isSelected);
             }}
           >
             {isSelected ? <MenuDetail>x</MenuDetail> : null}
@@ -137,7 +136,7 @@ export default function MenuList({
               <SubMenuWrapper>
                 <MenuList
                   data={showSubMenu}
-                  parentIndex={[...parentIndex, selectedIndex]}
+                  parentIndex={[...parentIndex, index]}
                   onSelect={onSelect}
                 />
               </SubMenuWrapper>

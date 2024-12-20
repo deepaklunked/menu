@@ -41,10 +41,6 @@ Used styled-components for quick styling, and kept the css to a bare minimum.
  - When `External filter?` is unchecked, searching will occur internally; this is implmented such that if the search query matches any first-level menu item, it will be displayed. Also, if the search query matches any sub menu item, then its parent menu will be displayed, and the filtered submenu will also be displayed.
  - When `External filter?` is checked, then the filtering happens via API, and the response is displayed as received from the backend, after the transformations done as mentioned above.
 
-## Known bugs
-
- - On selecting a menu item, the selection does not reflect immediately, renders fine on hovering out (the updated state is not triggering a re-render, to be debugged)
-
 
 ## Scope of expansion
 

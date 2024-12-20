@@ -25,28 +25,27 @@ interface Props {
 export default function Menu({ fetchURL, isExternalFilter = false }: Props) {
   const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const { data } = useFetch(fetchURL, isExternalFilter ? searchQuery : undefined);
-
-  const toggleMenuSelection = useCallback(
-    (parentIndex: number[]) => {
-      setMenuOptions((prev) =>
-        updateMenuSelection(prev, parentIndex)
-      );
-    },
-    []
+  const { data } = useFetch(
+    fetchURL,
+    isExternalFilter ? searchQuery : undefined
   );
+
+  const toggleMenuSelection = useCallback((parentIndex: number[], newState: boolean) => {
+    setMenuOptions((prev) => [...updateMenuSelection(prev, parentIndex, newState)]);
+  }, []);
 
   const handleSearchInputChange = useCallback((query: string) => {
     setSearchQuery(query);
   }, []);
-
 
   useEffect(() => {
     const dataByCategory = fillDummyCategory(
       groupProductsByCategory(data ?? [])
     );
     const menuOptions = prepareMenuOptions(dataByCategory);
-    const filteredMenuOptions = isExternalFilter ? menuOptions : filterMenuOptions(menuOptions, searchQuery);
+    const filteredMenuOptions = isExternalFilter
+      ? menuOptions
+      : filterMenuOptions(menuOptions, searchQuery);
     setMenuOptions(filteredMenuOptions);
   }, [data, isExternalFilter, searchQuery]);
 

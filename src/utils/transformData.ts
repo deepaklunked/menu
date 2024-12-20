@@ -99,7 +99,7 @@ export const filterMenuOptions = (data: MenuOption[], searchQuery: string) => {
 
       return result;
     }, [] as MenuOption[]);
-    
+
     // return _data.filter(
     //   (item) =>
     //     item.title
@@ -115,16 +115,20 @@ export const filterMenuOptions = (data: MenuOption[], searchQuery: string) => {
 
 export const updateMenuSelection = (
   data: MenuOption[],
-  parentIndex: number[]
+  parentIndex: number[],
+  newState: boolean
 ): MenuOption[] => {
   let itemToUpdate: MenuOption | undefined = undefined;
 
   for (const i of parentIndex) {
     itemToUpdate = itemToUpdate == null ? data[i] : itemToUpdate.subMenus[i];
+    if (itemToUpdate && newState) {
+      itemToUpdate.isSelected = newState;
+    }
   }
 
-  if (itemToUpdate) {
-    itemToUpdate.isSelected = !itemToUpdate.isSelected;
+  if (itemToUpdate && !newState) {
+    itemToUpdate.isSelected = newState;
   }
 
   return data;

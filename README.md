@@ -41,6 +41,7 @@ Used styled-components for quick styling, and kept the css to a bare minimum.
  - A menu item can only be unselected if it does not have any selected children
  - When `External filter?` is unchecked, searching will occur internally; this is implemented such that if the search query matches any first-level menu item, it will be displayed. Also, if the search query matches any sub menu item, then its parent menu will be displayed, and the filtered submenu will also be displayed. This is done via a simple check using `includes` to check the presence of the searchQuery in the menu item
  - When `External filter?` is checked, then the filtering happens via API, and the response is displayed as received from the backend, after the transformations done as mentioned above. This filters implementation is different from the internal filter, in the sense that the characters are matched in with the menu item in any order.
+ - This component can be reused, given that the data structure adheres to `MenuOption` interface as defined above. In this example, I did not demonstrate the usage of this component another time, as I would have to write transformers for converting the new API to MenuOption interface
 
 
 ## Scope of expansion
